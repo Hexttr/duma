@@ -216,8 +216,9 @@ body{
 .deputy-fraction{font-size:13px;color:#0e58c2;font-weight:600}
 
 /* Deputies carousel */
-.deputies-carousel{position:relative;overflow:hidden;--dep-columns-per-view:6;--dep-current-index:0;margin-top:8px}
-.deputies-track{display:grid;padding-top: 5px;grid-auto-flow:column;grid-auto-columns:calc(100%/var(--dep-columns-per-view));gap:clamp(12px,2vw,16px);transition:transform .4s ease;transform:translateX(calc(-1 * var(--dep-current-index) * (100%/var(--dep-columns-per-view))));cursor:grab;user-select:none}
+.deputies-carousel{position:relative;overflow:auto;--dep-columns-per-view:6;margin-top:8px;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch}
+.deputies-carousel::-webkit-scrollbar{display:none}
+.deputies-track{display:grid;padding-top: 5px;grid-auto-flow:column;grid-auto-columns:calc(100%/var(--dep-columns-per-view));gap:clamp(12px,2vw,16px);cursor:grab;user-select:none}
 .deputies-carousel.is-dragging .deputies-track{cursor:grabbing}
 .deputy-card{user-select:none}
 .deputy-photo img{-webkit-user-drag:none;user-select:none}

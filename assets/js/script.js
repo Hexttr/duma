@@ -338,109 +338,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (deputiesCarousel && deputiesTrack) {
             const getColumnsPerView = () => {
-                // Read from CSS variable set by media queries
                 const styles = getComputedStyle(deputiesCarousel);
                 const v = Number(styles.getPropertyValue('--dep-columns-per-view').trim()) || 1;
                 return Math.max(1, v);
             };
-            const getItems = () => Array.from(deputiesTrack.children);
-            const getMaxIndex = (cpv) => Math.max(0, getItems().length - cpv);
-
-            let columnsPerView = getColumnsPerView();
-            let currentIndex = 0;
+            const getMaxScrollLeft = () => Math.max(0, deputiesTrack.scrollWidth - deputiesCarousel.clientWidth);
+            const getStep = () => {
+                const items = Array.from(deputiesTrack.children);
+                if (items.length < 2) return deputiesCarousel.clientWidth / getColumnsPerView();
+                const rect0 = items[0].getBoundingClientRect();
+                const rect1 = items[1].getBoundingClientRect();
+                const gap = Math.max(0, Math.round(rect1.left - rect0.right));
+                return Math.round(rect0.width + gap) || (deputiesCarousel.clientWidth / getColumnsPerView());
+            };
 
             const updateButtons = () => {
-                deputiesCarousel.style.setProperty('--dep-columns-per-view', String(columnsPerView));
-                deputiesCarousel.style.setProperty('--dep-current-index', String(currentIndex));
-                const maxIndex = getMaxIndex(columnsPerView);
-                if (prevDepBtn) prevDepBtn.disabled = currentIndex === 0;
-                if (nextDepBtn) nextDepBtn.disabled = currentIndex >= maxIndex;
+                const max = getMaxScrollLeft();
+                if (prevDepBtn) prevDepBtn.disabled = deputiesCarousel.scrollLeft <= 0;
+                if (nextDepBtn) nextDepBtn.disabled = Math.ceil(deputiesCarousel.scrollLeft) >= max;
             };
 
             const handleResize = () => {
-                const nextCpv = getColumnsPerView();
-                const maxIndex = getMaxIndex(nextCpv);
-                columnsPerView = nextCpv;
-                if (currentIndex > maxIndex) currentIndex = maxIndex;
                 updateButtons();
             };
 
             prevDepBtn?.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex -= 1;
-                    updateButtons();
-                }
+                const step = getStep();
+                deputiesCarousel.scrollBy({ left: -step, behavior: 'smooth' });
+                setTimeout(updateButtons, 300);
             });
             nextDepBtn?.addEventListener('click', () => {
-                const maxIndex = getMaxIndex(columnsPerView);
-                if (currentIndex < maxIndex) {
-                    currentIndex += 1;
-                    updateButtons();
-                }
+                const step = getStep();
+                deputiesCarousel.scrollBy({ left: step, behavior: 'smooth' });
+                setTimeout(updateButtons, 300);
             });
 
-            // Initialize after deputies are rendered
             const init = () => {
-                columnsPerView = getColumnsPerView();
-                currentIndex = 0;
                 updateButtons();
             };
 
             window.addEventListener('resize', handleResize);
+            deputiesCarousel.addEventListener('scroll', updateButtons, { passive: true });
 
-            // Observe track changes (renders after filters)
             if (window.MutationObserver) {
                 const observer = new MutationObserver(() => {
-                    init();
+                    // wait for layout
+                    setTimeout(init, 0);
                 });
                 observer.observe(deputiesTrack, { childList: true });
             }
-
-            // Fallback init
             setTimeout(init, 0);
 
-            // Drag/Swipe support
+            // Desktop drag (free scroll by mouse)
             let isDragging = false;
-            let startClientX = 0;
-            let lastClientX = 0;
+            let startX = 0;
+            let startScrollLeft = 0;
             let totalDeltaX = 0;
-            const swipeThreshold = 50; // px to trigger slide
 
-            const onPointerDown = (e) => {
-                // предотвращаем нативный drag изображения/ссылки
+            const onMouseDown = (e) => {
+                // only left button
+                if (e.button !== 0) return;
                 e.preventDefault();
                 isDragging = true;
-                startClientX = ('touches' in e) ? e.touches[0].clientX : e.clientX;
-                lastClientX = startClientX;
+                startX = e.clientX;
+                startScrollLeft = deputiesCarousel.scrollLeft;
                 totalDeltaX = 0;
                 deputiesCarousel.classList.add('is-dragging');
             };
-            const onPointerMove = (e) => {
+            const onMouseMove = (e) => {
                 if (!isDragging) return;
-                const clientX = ('touches' in e) ? e.touches[0].clientX : e.clientX;
-                const dx = clientX - lastClientX;
-                lastClientX = clientX;
-                totalDeltaX += dx;
-                // prevent page scroll on horizontal swipe
-                if ('touches' in e) {
-                    if (Math.abs(totalDeltaX) > 4) e.preventDefault();
-                }
+                const dx = e.clientX - startX;
+                totalDeltaX = dx;
+                deputiesCarousel.scrollLeft = startScrollLeft - dx;
             };
-            const onPointerUp = () => {
+            const onMouseUp = () => {
                 if (!isDragging) return;
                 isDragging = false;
                 deputiesCarousel.classList.remove('is-dragging');
-                if (Math.abs(totalDeltaX) >= swipeThreshold) {
-                    // negative delta -> swipe left -> next
-                    if (totalDeltaX < 0) {
-                        const maxIndex = getMaxIndex(columnsPerView);
-                        if (currentIndex < maxIndex) currentIndex += 1;
-                    } else {
-                        if (currentIndex > 0) currentIndex -= 1;
-                    }
-                    updateButtons();
-                }
             };
+
+            deputiesTrack.addEventListener('dragstart', (e) => e.preventDefault());
+            deputiesTrack.addEventListener('mousedown', onMouseDown);
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+
             // Cancel link clicks when dragging
             deputiesTrack.addEventListener('click', (e) => {
                 if (Math.abs(totalDeltaX) > 5) {
@@ -448,18 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.stopPropagation();
                 }
             }, true);
-
-            // Блокируем событие dragstart (иконка-призрак)
-            deputiesTrack.addEventListener('dragstart', (e) => e.preventDefault());
-
-            // Mouse
-            deputiesTrack.addEventListener('mousedown', onPointerDown);
-            window.addEventListener('mousemove', onPointerMove, { passive: false });
-            window.addEventListener('mouseup', onPointerUp);
-            // Touch
-            deputiesTrack.addEventListener('touchstart', onPointerDown, { passive: true });
-            window.addEventListener('touchmove', onPointerMove, { passive: false });
-            window.addEventListener('touchend', onPointerUp, { passive: true });
         }
     } catch (e) {
         console.error('Deputies carousel error:', e);
