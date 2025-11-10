@@ -101,7 +101,7 @@ body{
 .hero-slider{position:relative;padding:8px;overflow:hidden}
 .slides{position:relative;display:flex;flex-direction:column;gap:12px}
 .slide{display:block;padding-top: 15px;}
-.slide-card{display:grid;grid-template-columns:160px 1fr;gap:12px;text-decoration:none;color:#fff}
+.slide-card{display:grid;grid-template-columns:160px 1fr;gap:12px;color:#fff;align-items:center}
 .slide-image{border-radius:10px;background-color:#093a86;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:120px}
 .slide-meta time{display:block;font-size:12px;opacity:.9;margin-bottom:4px}
 .slide-meta h3{font-size:18px;line-height:1.3}
