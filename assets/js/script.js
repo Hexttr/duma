@@ -407,6 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const swipeThreshold = 50; // px to trigger slide
 
             const onPointerDown = (e) => {
+                // предотвращаем нативный drag изображения/ссылки
+                e.preventDefault();
                 isDragging = true;
                 startClientX = ('touches' in e) ? e.touches[0].clientX : e.clientX;
                 lastClientX = startClientX;
@@ -446,6 +448,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.stopPropagation();
                 }
             }, true);
+
+            // Блокируем событие dragstart (иконка-призрак)
+            deputiesTrack.addEventListener('dragstart', (e) => e.preventDefault());
 
             // Mouse
             deputiesTrack.addEventListener('mousedown', onPointerDown);

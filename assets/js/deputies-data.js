@@ -210,7 +210,7 @@ function renderDeputies() {
 
         card.innerHTML = `
             <div class="deputy-photo">
-                <img src="${deputy.photo}" alt="${fullName}" loading="lazy">
+                <img src="${deputy.photo}" alt="${fullName}" loading="lazy" draggable="false">
             </div>
             <div class="deputy-info">
                 <h3 class="deputy-name"><span class="deputy-surname">${deputy.surname}</span><br>${deputy.name} ${deputy.patronymic}</h3>

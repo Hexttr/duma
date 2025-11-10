@@ -217,7 +217,10 @@ body{
 
 /* Deputies carousel */
 .deputies-carousel{position:relative;overflow:hidden;--dep-columns-per-view:6;--dep-current-index:0;margin-top:8px}
-.deputies-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc(100%/var(--dep-columns-per-view));gap:clamp(12px,2vw,16px);transition:transform .4s ease;transform:translateX(calc(-1 * var(--dep-current-index) * (100%/var(--dep-columns-per-view))))}
+.deputies-track{display:grid;padding-top: 5px;grid-auto-flow:column;grid-auto-columns:calc(100%/var(--dep-columns-per-view));gap:clamp(12px,2vw,16px);transition:transform .4s ease;transform:translateX(calc(-1 * var(--dep-current-index) * (100%/var(--dep-columns-per-view))));cursor:grab;user-select:none}
+.deputies-carousel.is-dragging .deputies-track{cursor:grabbing}
+.deputy-card{user-select:none}
+.deputy-photo img{-webkit-user-drag:none;user-select:none}
 .deputies-top .news-nav{flex-shrink:0}
 @media (max-width: 1280px){.deputies-carousel{--dep-columns-per-view:5}}
 @media (max-width: 1100px){.deputies-carousel{--dep-columns-per-view:4}}
