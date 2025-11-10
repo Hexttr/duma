@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Депутаты Тамбовской городской Думы</title>
+    <meta name="description" content="Список депутатов Тамбовской городской Думы, фильтры по комитетам, фракциям и алфавиту.">
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+    <header class="site-header" role="banner">
+        <div class="container header-top">
+            <a class="brand" href="../index.html" aria-label="На главную">
+                <img src="../assets/img/logo.png" alt="Логотип" class="brand-mark">
+                <div class="brand-text">
+                    <span class="brand-suptitle">Официальный сайт</span>
+                    <span class="brand-title">Тамбовская городская Дума</span>
+                    <span class="brand-subtitle">Тамбовской области</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <main id="main" class="site-main" role="main">
+        <section id="deputies" class="section deputies" aria-labelledby="deputies-title">
+            <div class="container">
+                <h1 id="deputies-title" class="section-title">Депутаты Тамбовской городской Думы</h1>
+                <div class="deputies-search">
+                    <div class="search-filters">
+                        <button class="filter-btn active" data-filter="all" aria-label="Все депутаты">Все</button>
+                        <button class="filter-btn" data-filter="committee" aria-label="По комитетам">По комитетам</button>
+                        <button class="filter-btn" data-filter="fraction" aria-label="По фракциям">По фракциям</button>
+                        <button class="filter-btn" data-filter="alphabet" aria-label="По алфавиту">По алфавиту</button>
+                    </div>
+                    <div class="search-dropdowns" style="display: none;">
+                        <select class="filter-select" id="committee-select" aria-label="Выберите комитет">
+                            <option value="">Все комитеты</option>
+                        </select>
+                        <select class="filter-select" id="fraction-select" aria-label="Выберите фракцию">
+                            <option value="">Все фракции</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="deputies-grid" id="deputies-grid" role="list" aria-label="Список депутатов">
+                    <!-- Депутаты будут добавлены через JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a class="brand brand--inverse" href="../index.html">
+                    <img src="../assets/img/logo.svg" alt="Герб Тамбовской области" class="brand-mark">
+                    <div class="brand-text">
+                        <span class="brand-title">Тамбовская городская Дума Тамбовской области</span>
+                    </div>
+                </a>
+                <address class="contacts">
+                    <div>392002, Тамбов, Первомайская площадь, 28</div>
+                    <div>E-mail: info@tambovduma.ru</div>
+                </address>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="copyright">© 2025 Тамбовская городская Дума Тамбовской области</div>
+                <div class="devnote">Версия для локального просмотра</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/deputies-data.js" defer></script>
+    <script src="../assets/js/script.js" defer></script>
+    <noscript>Для корректной работы сайта включите JavaScript.</noscript>
+</body>
+</html>
+
+
