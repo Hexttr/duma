@@ -88,6 +88,7 @@ body{
 .hero-bg{position:absolute;inset:0;background:url('../img/hero-bg.svg') center/cover no-repeat;opacity:.15;z-index:-1}
 .hero-inner{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,4vw,28px);align-items:stretch;padding:clamp(28px,6vw,42px) 20px}
 .hero-title{font-size:clamp(28px,3.2vw,44px);line-height:1.15;margin-bottom:10px}
+.hero-image{max-width:100%;height:auto;margin:clamp(12px,2vw,20px) 0;display:block;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .hero-subtitle{opacity:.9;margin-bottom:18px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 
@@ -112,7 +113,7 @@ body{
 /* Sections */
 .section{width:100%;padding:clamp(24px,5vw,36px) 0;position:relative;z-index:1}
 .section-news{background:#fff;z-index:10;position:relative}
-.section-title{font-size:clamp(18px,3vw,22px);margin-bottom:clamp(12px,2vw,16px);color:#0b3670}
+.section-title{font-size:clamp(18px,3vw,22px);margin-bottom:clamp(12px,2vw,16px);color:#0b3670;padding-top: 40px;}
 .section-actions{margin-top:clamp(10px,2vw,14px)}
 
 /* Grid */
