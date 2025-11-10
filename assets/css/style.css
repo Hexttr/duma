@@ -98,13 +98,15 @@ body{
 .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
 .btn-outline:hover{background:rgba(255,255,255,.08)}
 
-.hero-slider{position:relative;background:rgba(255,255,255,.06);backdrop-filter:saturate(120%) blur(4px);border-radius:14px;border:1px solid rgba(255,255,255,.2);padding:8px;overflow:hidden}
+.hero-slider{position:relative;padding:8px;overflow:hidden}
 .slides{position:relative;display:flex;flex-direction:column;gap:12px}
-.slide{display:block}
+.slide{display:block;padding-top: 15px;}
 .slide-card{display:grid;grid-template-columns:160px 1fr;gap:12px;text-decoration:none;color:#fff}
 .slide-image{border-radius:10px;background-color:#093a86;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:120px}
 .slide-meta time{display:block;font-size:12px;opacity:.9;margin-bottom:4px}
 .slide-meta h3{font-size:18px;line-height:1.3}
+.slide-more{display:inline-block;margin-top:6px;color:#fff;text-decoration:none;font-weight:700}
+.slide-more:hover{text-decoration:underline}
 .slider-control{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);backdrop-filter:blur(2px);cursor:pointer}
 .slider-control.prev{left:8px}
 .slider-control.next{right:8px}
