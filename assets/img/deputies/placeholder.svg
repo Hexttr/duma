@@ -1,0 +1,8 @@
+<svg width="200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="250" fill="#e5e7eb"/>
+  <circle cx="100" cy="90" r="40" fill="#9ca3af"/>
+  <rect x="60" y="140" width="80" height="100" rx="8" fill="#9ca3af"/>
+  <text x="50%" y="230" font-family="Arial" font-size="12" fill="#6b7280" text-anchor="middle" dy=".3em">Заглушка</text>
+</svg>
+
+
