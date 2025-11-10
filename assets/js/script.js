@@ -398,6 +398,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Fallback init
             setTimeout(init, 0);
+
+            // Drag/Swipe support
+            let isDragging = false;
+            let startClientX = 0;
+            let lastClientX = 0;
+            let totalDeltaX = 0;
+            const swipeThreshold = 50; // px to trigger slide
+
+            const onPointerDown = (e) => {
+                isDragging = true;
+                startClientX = ('touches' in e) ? e.touches[0].clientX : e.clientX;
+                lastClientX = startClientX;
+                totalDeltaX = 0;
+                deputiesCarousel.classList.add('is-dragging');
+            };
+            const onPointerMove = (e) => {
+                if (!isDragging) return;
+                const clientX = ('touches' in e) ? e.touches[0].clientX : e.clientX;
+                const dx = clientX - lastClientX;
+                lastClientX = clientX;
+                totalDeltaX += dx;
+                // prevent page scroll on horizontal swipe
+                if ('touches' in e) {
+                    if (Math.abs(totalDeltaX) > 4) e.preventDefault();
+                }
+            };
+            const onPointerUp = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                deputiesCarousel.classList.remove('is-dragging');
+                if (Math.abs(totalDeltaX) >= swipeThreshold) {
+                    // negative delta -> swipe left -> next
+                    if (totalDeltaX < 0) {
+                        const maxIndex = getMaxIndex(columnsPerView);
+                        if (currentIndex < maxIndex) currentIndex += 1;
+                    } else {
+                        if (currentIndex > 0) currentIndex -= 1;
+                    }
+                    updateButtons();
+                }
+            };
+            // Cancel link clicks when dragging
+            deputiesTrack.addEventListener('click', (e) => {
+                if (Math.abs(totalDeltaX) > 5) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+
+            // Mouse
+            deputiesTrack.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove, { passive: false });
+            window.addEventListener('mouseup', onPointerUp);
+            // Touch
+            deputiesTrack.addEventListener('touchstart', onPointerDown, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: false });
+            window.addEventListener('touchend', onPointerUp, { passive: true });
         }
     } catch (e) {
         console.error('Deputies carousel error:', e);
