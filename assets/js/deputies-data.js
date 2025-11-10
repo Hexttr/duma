@@ -191,6 +191,9 @@ function renderDeputies() {
     const grid = document.getElementById('deputies-grid');
     if (!grid) return;
 
+    const isSubpage = window.location.pathname.includes('/deputies/');
+    const assetPrefix = isSubpage ? '../' : '';
+
     const filtered = filterDeputies();
 
     grid.innerHTML = '';
@@ -210,7 +213,7 @@ function renderDeputies() {
 
         card.innerHTML = `
             <div class="deputy-photo">
-                <img src="${deputy.photo}" alt="${fullName}" loading="lazy" draggable="false">
+                <img src="${assetPrefix}${deputy.photo}" alt="${fullName}" loading="lazy" draggable="false">
             </div>
             <div class="deputy-info">
                 <h3 class="deputy-name"><span class="deputy-surname">${deputy.surname}</span><br>${deputy.name} ${deputy.patronymic}</h3>
