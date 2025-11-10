@@ -328,6 +328,80 @@ document.addEventListener('DOMContentLoaded', () => {
             slider.addEventListener('mouseleave', () => { timer = setInterval(next, intervalMs); });
         }
     }
+
+    // Deputies carousel (horizontal, like news)
+    try {
+        const deputiesCarousel = document.querySelector('.deputies-carousel');
+        const deputiesTrack = document.querySelector('.deputies-track');
+        const prevDepBtn = document.querySelector('.deputies-arrow--prev');
+        const nextDepBtn = document.querySelector('.deputies-arrow--next');
+
+        if (deputiesCarousel && deputiesTrack) {
+            const getColumnsPerView = () => {
+                // Read from CSS variable set by media queries
+                const styles = getComputedStyle(deputiesCarousel);
+                const v = Number(styles.getPropertyValue('--dep-columns-per-view').trim()) || 1;
+                return Math.max(1, v);
+            };
+            const getItems = () => Array.from(deputiesTrack.children);
+            const getMaxIndex = (cpv) => Math.max(0, getItems().length - cpv);
+
+            let columnsPerView = getColumnsPerView();
+            let currentIndex = 0;
+
+            const updateButtons = () => {
+                deputiesCarousel.style.setProperty('--dep-columns-per-view', String(columnsPerView));
+                deputiesCarousel.style.setProperty('--dep-current-index', String(currentIndex));
+                const maxIndex = getMaxIndex(columnsPerView);
+                if (prevDepBtn) prevDepBtn.disabled = currentIndex === 0;
+                if (nextDepBtn) nextDepBtn.disabled = currentIndex >= maxIndex;
+            };
+
+            const handleResize = () => {
+                const nextCpv = getColumnsPerView();
+                const maxIndex = getMaxIndex(nextCpv);
+                columnsPerView = nextCpv;
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                updateButtons();
+            };
+
+            prevDepBtn?.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex -= 1;
+                    updateButtons();
+                }
+            });
+            nextDepBtn?.addEventListener('click', () => {
+                const maxIndex = getMaxIndex(columnsPerView);
+                if (currentIndex < maxIndex) {
+                    currentIndex += 1;
+                    updateButtons();
+                }
+            });
+
+            // Initialize after deputies are rendered
+            const init = () => {
+                columnsPerView = getColumnsPerView();
+                currentIndex = 0;
+                updateButtons();
+            };
+
+            window.addEventListener('resize', handleResize);
+
+            // Observe track changes (renders after filters)
+            if (window.MutationObserver) {
+                const observer = new MutationObserver(() => {
+                    init();
+                });
+                observer.observe(deputiesTrack, { childList: true });
+            }
+
+            // Fallback init
+            setTimeout(init, 0);
+        }
+    } catch (e) {
+        console.error('Deputies carousel error:', e);
+    }
 });
 
 

@@ -325,7 +325,17 @@
 
         <section id="deputies" class="section deputies box-shadow" aria-labelledby="deputies-title">
             <div class="container">
-                <h2 id="deputies-title" class="section-title">Депутаты</h2>
+                <div class="deputies-top" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                    <h2 id="deputies-title" class="section-title">Депутаты</h2>
+                    <div class="news-nav" aria-label="Управление депутатами">
+                        <button class="news-arrow deputies-arrow--prev" type="button" aria-label="Предыдущие депутаты">
+                            <span class="news-arrow-icon" aria-hidden="true">&#8592;</span>
+                        </button>
+                        <button class="news-arrow deputies-arrow--next" type="button" aria-label="Следующие депутаты">
+                            <span class="news-arrow-icon" aria-hidden="true">&#8594;</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="deputies-search">
                     <div class="search-filters">
                         <button class="filter-btn active" data-filter="all" aria-label="Все депутаты">Все</button>
@@ -342,8 +352,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="deputies-grid" id="deputies-grid" role="list" aria-label="Список депутатов">
-                    <!-- Депутаты будут добавлены через JavaScript -->
+                <div class="deputies-carousel" aria-label="Список депутатов">
+                    <div class="deputies-track" id="deputies-grid" role="list"></div>
                 </div>
             </div>
         </section>

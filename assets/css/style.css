@@ -215,6 +215,16 @@ body{
 .deputy-committee{font-size:13px;color:#6b7280;line-height:1.4}
 .deputy-fraction{font-size:13px;color:#0e58c2;font-weight:600}
 
+/* Deputies carousel */
+.deputies-carousel{position:relative;overflow:hidden;--dep-columns-per-view:6;--dep-current-index:0;margin-top:8px}
+.deputies-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc(100%/var(--dep-columns-per-view));gap:clamp(12px,2vw,16px);transition:transform .4s ease;transform:translateX(calc(-1 * var(--dep-current-index) * (100%/var(--dep-columns-per-view))))}
+.deputies-top .news-nav{flex-shrink:0}
+@media (max-width: 1280px){.deputies-carousel{--dep-columns-per-view:5}}
+@media (max-width: 1100px){.deputies-carousel{--dep-columns-per-view:4}}
+@media (max-width: 920px){.deputies-carousel{--dep-columns-per-view:3}}
+@media (max-width: 768px){.deputies-carousel{--dep-columns-per-view:2}}
+@media (max-width: 520px){.deputies-carousel{--dep-columns-per-view:1}}
+
 /* Footer */
 .site-footer{width:100%;margin-top:clamp(16px,3vw,20px);background:#0a1433;color:#e5e7eb}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:clamp(16px,3vw,20px);padding:clamp(20px,4vw,24px) 0}
