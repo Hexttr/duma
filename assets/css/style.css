@@ -99,9 +99,8 @@ body{
 .btn-outline:hover{background:rgba(255,255,255,.08)}
 
 .hero-slider{position:relative;background:rgba(255,255,255,.06);backdrop-filter:saturate(120%) blur(4px);border-radius:14px;border:1px solid rgba(255,255,255,.2);padding:8px;overflow:hidden}
-.slides{position:relative}
-.slide{display:none}
-.slide.is-active{display:block}
+.slides{position:relative;display:flex;flex-direction:column;gap:12px}
+.slide{display:block}
 .slide-card{display:grid;grid-template-columns:160px 1fr;gap:12px;text-decoration:none;color:#fff}
 .slide-image{border-radius:10px;background-color:#093a86;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:120px}
 .slide-meta time{display:block;font-size:12px;opacity:.9;margin-bottom:4px}
